@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ccc",
+    "iii",
+    " l "
+  ],
+  "key":
+  {
+    "c":
+    {
+      "item": "platypus:platypus_claw"
+    },
+    "i":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    "l":
+    {
+      "item": "minecraft:leather"
+    }
+  },
+  "result":
+  {
+    "item": "platypus:platypus_sword",
+    "count": 1
+  }
+}

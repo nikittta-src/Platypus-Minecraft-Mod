@@ -1,0 +1,6 @@
+{
+  "platypus_ambient": {
+    "category": "entity",
+    "sounds": ["platypus:platypus_ambient"]
+  }
+}

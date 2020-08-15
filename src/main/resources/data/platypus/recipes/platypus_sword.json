@@ -4,7 +4,7 @@
   [
     "ccc",
     "iii",
-    " l "
+    " i "
   ],
   "key":
   {
@@ -15,10 +15,6 @@
     "i":
     {
       "item": "minecraft:iron_ingot"
-    },
-    "l":
-    {
-      "item": "minecraft:leather"
     }
   },
   "result":

@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlatypusRenderer extends MobRenderer<PlatypusEntity, PlatypusModel<PlatypusEntity>> {
 
-    protected static final ResourceLocation PERRY = new ResourceLocation(Platypus.MOD_ID, "textures/entity/perry.png");
     protected static final ResourceLocation PLATYPUS = new ResourceLocation(Platypus.MOD_ID, "textures/entity/platypus.png");
 
     public PlatypusRenderer(EntityRendererManager renderManagerIn) {
@@ -18,10 +17,6 @@ public class PlatypusRenderer extends MobRenderer<PlatypusEntity, PlatypusModel<
 
     @Override
     public ResourceLocation getEntityTexture(PlatypusEntity entity) {
-        if (entity.isPerry()){
-            return PERRY;
-        }else{
-            return PLATYPUS;
-        }
+        return PLATYPUS;
     }
 }

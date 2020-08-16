@@ -1,6 +1,7 @@
 package com.nikittta.platypus.init;
 
 import com.nikittta.platypus.Platypus;
+import com.nikittta.platypus.entities.PerryEntity;
 import com.nikittta.platypus.entities.PlatypusEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -18,5 +19,11 @@ public class ModEntityTypes {
                     .create(PlatypusEntity::new, EntityClassification.CREATURE)
                     .size(1, 1)
                     .build(new ResourceLocation(Platypus.MOD_ID, "platypus").toString()));
+
+    public static final RegistryObject<EntityType<PerryEntity>> PERRY = ENTITY_TYPES.register("perry",
+            () -> EntityType.Builder
+                    .create(PerryEntity::new, EntityClassification.CREATURE)
+                    .size(1, 1)
+                    .build(new ResourceLocation(Platypus.MOD_ID, "perry").toString()));
 
 }

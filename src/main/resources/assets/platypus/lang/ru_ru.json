@@ -2,5 +2,6 @@
   "entity.platypus.platypus": "Утконос",
   "item.platypus.platypus_claw": "Коготь утконоса",
   "item.platypus.platypus_egg": "Яйцо утконоса",
-  "item.platypus.platypus_sword": "Утконосий кастет"
+  "item.platypus.platypus_sword": "Утконосий кастет",
+  "entity.platypus.perry": "Перри Утконос"
 }

@@ -1,5 +1,6 @@
 package com.nikittta.platypus;
 
+import com.nikittta.platypus.entities.PerryEntity;
 import com.nikittta.platypus.entities.PlatypusEntity;
 import com.nikittta.platypus.init.ModEntityTypes;
 import com.nikittta.platypus.util.RegistryHandler;
@@ -32,6 +33,7 @@ public class Platypus
     private void setup(final FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(ModEntityTypes.PLATYPUS.get(), PlatypusEntity.setCustomAttributes().func_233813_a_());
+            GlobalEntityTypeAttributes.put(ModEntityTypes.PERRY.get(), PerryEntity.setCustomAttributes().func_233813_a_());
         });
     }
 

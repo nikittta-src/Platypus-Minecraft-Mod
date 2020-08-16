@@ -41,7 +41,10 @@ public class PlatypusEggItem extends Item {
             }
 
             EntityType<?> entitytype = ModEntityTypes.PLATYPUS.get();
-            if (new Random().nextInt(20) >= 10) {
+            if (new Random().nextInt(30) == 12){
+                entitytype = ModEntityTypes.PERRY.get();
+            }
+            if (new Random().nextInt(20) >= 5) {
                 if (entitytype.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BREEDING, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
                     itemstack.shrink(1);
                 }

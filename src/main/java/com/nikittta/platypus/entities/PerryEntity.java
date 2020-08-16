@@ -23,11 +23,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class PlatypusEntity extends WolfEntity {
-
-    //Platypus Data
-    private static final EntityPredicate entityPredicate = (new EntityPredicate()).setDistance(8.0D).allowInvulnerable().allowFriendlyFire().setLineOfSiteRequired();
-    private final boolean isPerry;
+public class PerryEntity extends PlatypusEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
@@ -58,13 +54,13 @@ public class PlatypusEntity extends WolfEntity {
         } else if (!(otherAnimal instanceof PlatypusEntity)) {
             return false;
         } else {
-            PlatypusEntity platypusEntity = (PlatypusEntity)otherAnimal;
-            if (!platypusEntity.isTamed()) {
+            PerryEntity perryEntity = (PerryEntity)otherAnimal;
+            if (!perryEntity.isTamed()) {
                 return false;
-            } else if (platypusEntity.func_233684_eK_()) {
+            } else if (perryEntity.func_233684_eK_()) {
                 return false;
             } else {
-                return this.isInLove() && platypusEntity.isInLove();
+                return this.isInLove() && perryEntity.isInLove();
             }
         }
     }
@@ -105,33 +101,32 @@ public class PlatypusEntity extends WolfEntity {
 
 
     //Platypus constructor or something
-    public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
+    public PerryEntity(EntityType<? extends WolfEntity> type, World worldIn) {
         super(type, worldIn);
-        this.isPerry = new Random().nextInt(10) == 4;
         this.setTamed(false);
     }
 
     @Nullable
     @Override
-    public PlatypusEntity createChild(AgeableEntity ageable) {
-        PlatypusEntity platypusEntity = ModEntityTypes.PLATYPUS.get().create(this.world);
+    public PerryEntity createChild(AgeableEntity ageable) {
+        PerryEntity perryEntity = (PerryEntity) ModEntityTypes.PERRY.get().create(this.world);
         if (this.getOwnerId() != null) {
-            platypusEntity.setTamed(true);
-            platypusEntity.setOwnerId(this.getOwnerId());
+            perryEntity.setTamed(true);
+            perryEntity.setOwnerId(this.getOwnerId());
         }
 
-        return platypusEntity;
+        return perryEntity;
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player) { return 10 + this.world.rand.nextInt(5); }
+    protected int getExperiencePoints(PlayerEntity player) { return 20 + this.world.rand.nextInt(30); }
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes(){
         return MobEntity.func_233666_p_().func_233815_a_(Attributes.MAX_HEALTH, 16D)
-                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D)
-                .func_233815_a_(Attributes.ATTACK_DAMAGE, 0.5D)
-                .func_233815_a_(Attributes.FOLLOW_RANGE, 5D)
-                .func_233815_a_(Attributes.ATTACK_SPEED, 4D);
+                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.4D)
+                .func_233815_a_(Attributes.ATTACK_DAMAGE, 3D)
+                .func_233815_a_(Attributes.FOLLOW_RANGE, 6D)
+                .func_233815_a_(Attributes.ATTACK_SPEED, 3D);
     }
 
     @Override
@@ -178,7 +173,7 @@ public class PlatypusEntity extends WolfEntity {
 
 
         private class EggBreedGoal extends BreedGoal {
-            public EggBreedGoal(PlatypusEntity animal, double speedIn) {
+            public EggBreedGoal(PerryEntity animal, double speedIn) {
                 super(animal, speedIn);
             }
 

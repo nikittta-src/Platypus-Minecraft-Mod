@@ -25,10 +25,6 @@ import java.util.Random;
 
 public class PlatypusEntity extends WolfEntity {
 
-    //Platypus Data
-    private static final EntityPredicate entityPredicate = (new EntityPredicate()).setDistance(8.0D).allowInvulnerable().allowFriendlyFire().setLineOfSiteRequired();
-    private final boolean isPerry;
-
     @Override
     protected SoundEvent getAmbientSound() {
         return PLATYPUS_AMBIENT_SOUND;
@@ -107,7 +103,6 @@ public class PlatypusEntity extends WolfEntity {
     //Platypus constructor or something
     public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
         super(type, worldIn);
-        this.isPerry = new Random().nextInt(10) == 4;
         this.setTamed(false);
     }
 

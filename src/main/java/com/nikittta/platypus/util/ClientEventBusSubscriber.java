@@ -3,8 +3,10 @@ package com.nikittta.platypus.util;
 import com.nikittta.platypus.Platypus;
 import com.nikittta.platypus.client.render.PerryRenderer;
 import com.nikittta.platypus.client.render.PlatypusRenderer;
+import com.nikittta.platypus.entities.PerryEntity;
 import com.nikittta.platypus.init.ModEntityTypes;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -17,6 +19,14 @@ public class ClientEventBusSubscriber {
     public static void onClientSetup(FMLClientSetupEvent event){
         RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.PLATYPUS.get(), PlatypusRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.PERRY.get(),  PerryRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void trackPerries(EntityJoinWorldEvent event){
+
+        if (event.getEntity() instanceof PerryEntity){
+            //Platypus.LOGGER.info();
+        }
     }
 
 }

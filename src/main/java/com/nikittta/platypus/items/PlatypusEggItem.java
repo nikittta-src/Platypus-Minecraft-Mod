@@ -41,7 +41,7 @@ public class PlatypusEggItem extends Item {
             }
 
             EntityType<?> entitytype = ModEntityTypes.PLATYPUS.get();
-            if (new Random().nextInt(30) == 12){
+            if (new Random().nextInt(40) == 12){
                 entitytype = ModEntityTypes.PERRY.get();
             }
             if (new Random().nextInt(20) >= 5) {

@@ -35,19 +35,25 @@ public class PlatypusEggItem extends Item {
 
             BlockPos blockpos1;
             if (blockstate.getCollisionShape(world, blockpos).isEmpty()) {
+
                 blockpos1 = blockpos;
+
             } else {
+
                 blockpos1 = blockpos.offset(direction);
+
             }
 
             EntityType<?> entitytype = ModEntityTypes.PLATYPUS.get();
-            if (new Random().nextInt(40) == 12){
+            if (new Random().nextInt(30) == 12){
+
                 entitytype = ModEntityTypes.PERRY.get();
+
             }
-            if (new Random().nextInt(20) >= 5) {
-                if (entitytype.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BREEDING, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
-                    itemstack.shrink(1);
-                }
+            if (entitytype.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BREEDING, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
+
+                itemstack.shrink(1);
+
             }
 
             return ActionResultType.CONSUME;

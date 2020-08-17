@@ -21,12 +21,4 @@ public class ClientEventBusSubscriber {
         RenderingRegistry.registerEntityRenderingHandler(ModEntityTypes.PERRY.get(),  PerryRenderer::new);
     }
 
-    @SubscribeEvent
-    public static void trackPerries(EntityJoinWorldEvent event){
-
-        if (event.getEntity() instanceof PerryEntity){
-            //Platypus.LOGGER.info();
-        }
-    }
-
 }

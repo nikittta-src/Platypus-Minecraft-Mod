@@ -24,6 +24,8 @@ public class RegistryHandler {
 
     public static final RegistryObject<Item> PLATYPUS_CLAW = ITEMS.register("platypus_claw", ItemBase::new);
 
+    public static final RegistryObject<Item> CRAYFISH = ITEMS.register("crayfish", ItemBase::new);
+
     public static final RegistryObject<Item> PLATYPUS_EGG = ITEMS.register("platypus_egg", PlatypusEggItem::new);
 
     public static final RegistryObject<SwordItem> PLATYPUS_SWORD = ITEMS.register("platypus_sword",

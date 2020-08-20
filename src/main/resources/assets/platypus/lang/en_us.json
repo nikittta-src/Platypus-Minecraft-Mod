@@ -1,6 +1,8 @@
 {
   "entity.platypus.platypus": "Platypus",
-  "item.platypus.platypus_egg": "Platypus Egg",
   "entity.platypus.perry": "Perry The Platypus",
-  "item.platypus.crayfish": "Crayfish"
+  "item.platypus.platypus_egg": "Platypus Egg",
+  "item.platypus.crayfish": "Crayfish",
+  "advancements.adventure.kill_platypus.title": "You're monster!",
+  "advancements.adventure.kill_platypus.description": "Kill a platypus"
 }

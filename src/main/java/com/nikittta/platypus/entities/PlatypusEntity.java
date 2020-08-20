@@ -11,11 +11,13 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.DrownedEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,6 +26,43 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class PlatypusEntity extends WolfEntity {
+
+    //Platypus constructor or something
+    public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
+        super(type, worldIn);
+        this.setPathPriority(PathNodeType.WATER, 0.0F);
+        this.setTamed(false);
+    }
+
+    @Override
+    public boolean canSwim() {
+        return true;
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 8.0F, 2.0F, false));
+        this.goalSelector.addGoal(6, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
+        this.goalSelector.addGoal(7, new PlatypusEntity.EggBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new TemptGoal(this, 1.0f, Ingredient.fromItems(Items.SALMON), false));
+        this.goalSelector.addGoal(8, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, SalmonEntity.class, 10, true, false, this::func_233680_b_));
+        this.targetSelector.addGoal(8, new ResetAngerGoal<>(this, true));
+    }
+
+    public final CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.WATER;
+    }
 
     @Override
     protected SoundEvent getAmbientSound() {
@@ -80,44 +119,8 @@ public class PlatypusEntity extends WolfEntity {
         }
     }
 
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(6, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
-        this.goalSelector.addGoal(7, new EggBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
-        this.targetSelector.addGoal(8, new ResetAngerGoal<>(this, true));
-
-    }
-
-    public static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(
-            Items.SALMON,
-            Items.SALMON_BUCKET,
-            Items.COOKED_SALMON,
-            Items.COD,
-            Items.COD_BUCKET,
-            Items.COOKED_COD
-    );
-
     public static final ResourceLocation PLATYPUS_AMBIENT_SOUND_RESOURCE = new ResourceLocation(Platypus.MOD_ID, "platypus_ambient");
     public static final SoundEvent PLATYPUS_AMBIENT_SOUND = new SoundEvent(PLATYPUS_AMBIENT_SOUND_RESOURCE);
-
-
-    //Platypus constructor or something
-    public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
-        super(type, worldIn);
-        this.setTamed(false);
-    }
 
     @Nullable
     @Override
@@ -137,7 +140,7 @@ public class PlatypusEntity extends WolfEntity {
     @Override
     protected int getExperiencePoints(PlayerEntity player) { return 10 + this.world.rand.nextInt(5); }
 
-    public static AttributeModifierMap.MutableAttribute setCustomAttаributes(){
+    public static AttributeModifierMap.MutableAttribute setCustomAttributes(){
         return MobEntity.func_233666_p_().func_233815_a_(Attributes.MAX_HEALTH, 16D)
                 .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D)
                 .func_233815_a_(Attributes.ATTACK_DAMAGE, 0.5D)

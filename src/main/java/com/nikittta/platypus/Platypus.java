@@ -17,7 +17,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod("platypus")
+@Mod(Platypus.MOD_ID)
 public class Platypus
 {
     public static final Logger LOGGER = LogManager.getLogger();

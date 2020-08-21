@@ -2,6 +2,8 @@ package com.nikittta.platypus.items;
 
 import com.nikittta.platypus.init.ModEntityTypes;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
@@ -50,11 +52,13 @@ public class PlatypusEggItem extends Item {
                 entitytype = ModEntityTypes.PERRY.get();
 
             }
-            if (entitytype.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BREEDING, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
-
-                itemstack.shrink(1);
-
+            Entity child = entitytype.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.BREEDING, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP);
+            if (child instanceof AgeableEntity){
+                ((AgeableEntity) child).setGrowingAge(-24000);
             }
+            itemstack.shrink(1);
+
+
 
             return ActionResultType.CONSUME;
         }

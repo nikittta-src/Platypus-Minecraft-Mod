@@ -1,5 +1,6 @@
 package com.nikittta.platypus.client.model;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.nikittta.platypus.entities.PerryEntity;
@@ -83,14 +84,18 @@ public class PerryModel <T extends PerryEntity> extends WolfModel<T> {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-        head.render(matrixStack, buffer, packedLight, packedOverlay);
-        body.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg1.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg2.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg3.render(matrixStack, buffer, packedLight, packedOverlay);
-        leg4.render(matrixStack, buffer, packedLight, packedOverlay);
-        tail.render(matrixStack, buffer, packedLight, packedOverlay);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> getHeadParts() {
+        return ImmutableList.of(this.head);
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> getBodyParts() {
+        return ImmutableList.of(this.leg1, this.leg2, this.leg3, this.leg4, this.body, this.tail);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

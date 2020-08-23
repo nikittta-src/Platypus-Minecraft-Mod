@@ -1,2 +1,2 @@
 # Platypuses Mod
-[Platypuses Mod](https://minecraft.curseforge.com/projects/platypuses) adds two more mobs to Minecraft
+[Platypuses Mod](https://www.curseforge.com/minecraft/mc-mods/platypuses/) adds two more mobs to Minecraft

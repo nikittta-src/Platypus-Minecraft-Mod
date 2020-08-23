@@ -4,7 +4,10 @@ import com.nikittta.platypus.Platypus;
 import com.nikittta.platypus.init.ModEntityTypes;
 import com.nikittta.platypus.util.RegistryHandler;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureAttribute;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -27,7 +30,6 @@ import java.util.Random;
 
 public class PlatypusEntity extends WolfEntity {
 
-    //Platypus constructor or something
     public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
         super(type, worldIn);
         this.setPathPriority(PathNodeType.WATER, 0.0F);
@@ -191,7 +193,7 @@ public class PlatypusEntity extends WolfEntity {
 
                         this.setTamedBy(player);
                         this.navigator.clearPath();
-                        this.setAttackTarget((LivingEntity) null);
+                        this.setAttackTarget(null);
                         this.func_233687_w_(true);
                         this.world.setEntityState(this, (byte) 7);
 

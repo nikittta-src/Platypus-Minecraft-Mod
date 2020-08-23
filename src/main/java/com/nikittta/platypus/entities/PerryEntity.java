@@ -1,28 +1,28 @@
 package com.nikittta.platypus.entities;
 
-import com.nikittta.platypus.Platypus;
 import com.nikittta.platypus.init.ModEntityTypes;
 import com.nikittta.platypus.util.RegistryHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.DrownedEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class PerryEntity extends PlatypusEntity {
+
+    public PerryEntity(EntityType<? extends WolfEntity> type, World worldIn) {
+        super(type, worldIn);
+    }
 
     @Override
     protected void registerGoals() {
@@ -31,8 +31,9 @@ public class PerryEntity extends PlatypusEntity {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 8.0F, 2.0F, false));
         this.goalSelector.addGoal(6, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
-        this.goalSelector.addGoal(7, new EggBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new PerryEntity.EggBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new TemptGoal(this, 1.0f, Ingredient.fromItems(Items.SALMON), false));
+        this.goalSelector.addGoal(8, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
@@ -40,19 +41,13 @@ public class PerryEntity extends PlatypusEntity {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, SalmonEntity.class, 10, true, false, this::func_233680_b_));
         this.targetSelector.addGoal(8, new ResetAngerGoal<>(this, true));
-
-    }
-
-    //Platypus constructor or something
-    public PerryEntity(EntityType<? extends WolfEntity> type, World worldIn) {
-        super(type, worldIn);
-        this.setTamed(false);
     }
 
     @Override
     public PerryEntity createChild(AgeableEntity ageable) {
-        PerryEntity perryEntity = (PerryEntity) ModEntityTypes.PERRY.get().create(this.world);
+        PerryEntity perryEntity = ModEntityTypes.PERRY.get().create(this.world);
         if (this.getOwnerId() != null) {
             perryEntity.setTamed(true);
             perryEntity.setOwnerId(this.getOwnerId());

@@ -21,6 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.potion.PotionUtils;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -164,6 +166,20 @@ public class PlatypusEntity extends WolfEntity {
         } else {
             if (this.isTamed()) {
 
+                if (item == Items.GLASS_BOTTLE){
+
+                            Platypus.LOGGER.info("You're milking a platypus now...");
+                            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+                            itemstack.shrink(1);
+                            ItemStack potion = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.POISON);
+                            player.addItemStackToInventory(potion);
+                            return ActionResultType.SUCCESS;
+
+                    }
+
+
+                }
+
                 if (isCrayfish && this.getHealth() < this.getMaxHealth()) {
 
                     if (!player.abilities.isCreativeMode) {
@@ -178,8 +194,6 @@ public class PlatypusEntity extends WolfEntity {
                 } else if (isCrayfish && this.getHealth() == this.getMaxHealth() && !this.isInLove()){
 
                     this.setInLove(player);
-
-                }
 
                 } else if (isCrayfish && !this.func_233678_J__()) {
 

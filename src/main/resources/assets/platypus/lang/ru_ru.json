@@ -1,6 +1,10 @@
 {
   "entity.platypus.platypus": "Утконос",
-  "item.platypus.platypus_egg": "Яйцо утконоса",
   "entity.platypus.perry": "Перри Утконос",
-  "item.platypus.crayfish": "Рак"
+  "item.platypus.platypus_egg": "Яйцо утконоса",
+  "item.platypus.crayfish": "Рак",
+  "item.platypus.perry_spawn_egg": "Яйцо призыва Перри утконоса",
+  "item.platypus.platypus_spawn_egg": "Яйцо призыва утконоса",
+  "advancements.adventure.kill_platypus.title": "Ты монстр!",
+  "advancements.adventure.kill_platypus.description": "Убей утконоса"
 }

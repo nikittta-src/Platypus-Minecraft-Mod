@@ -6,7 +6,6 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -59,9 +58,7 @@ public class PlatypusEggItem extends Item {
             }
             itemstack.shrink(1);
 
-            if (child instanceof TameableEntity){
-                ((TameableEntity) child).setTamedBy(context.getPlayer());
-            }
+
 
             return ActionResultType.CONSUME;
         }

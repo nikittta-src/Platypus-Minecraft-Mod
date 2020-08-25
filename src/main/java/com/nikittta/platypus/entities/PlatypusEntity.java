@@ -32,6 +32,7 @@ import java.util.Random;
 
 public class PlatypusEntity extends WolfEntity {
 
+    //Platypus constructor or something
     public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
         super(type, worldIn);
         this.setPathPriority(PathNodeType.WATER, 0.0F);

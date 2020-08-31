@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "platypus:block/platypus_egg"
+    }
+  }
+}

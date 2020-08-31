@@ -4,11 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.nikittta.platypus.entities.PerryEntity;
-import net.minecraft.client.renderer.entity.model.WolfModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-public class PerryModel <T extends PerryEntity> extends WolfModel<T> {
+public class PerryModel <T extends PerryEntity> extends PlatypusModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer body;
     private final ModelRenderer body_rotation;

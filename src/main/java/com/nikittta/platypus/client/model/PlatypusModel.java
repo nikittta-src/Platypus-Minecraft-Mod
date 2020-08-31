@@ -4,11 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.nikittta.platypus.entities.PlatypusEntity;
-import net.minecraft.client.renderer.entity.model.WolfModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 
-public class PlatypusModel <T extends PlatypusEntity> extends WolfModel<T> {
+public class PlatypusModel <T extends PlatypusEntity> extends AlmostPlatypusModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer body;
     private final ModelRenderer body_rotation;

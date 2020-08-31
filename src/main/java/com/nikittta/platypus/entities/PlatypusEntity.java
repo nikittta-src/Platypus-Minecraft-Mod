@@ -13,14 +13,12 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.DrownedEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.*;
@@ -28,15 +26,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
-public class PlatypusEntity extends WolfEntity {
+public class PlatypusEntity extends AlmostPlatypusEntity {
 
     //Platypus constructor or something
-    public PlatypusEntity(EntityType<? extends WolfEntity> type, World worldIn) {
+    public PlatypusEntity(EntityType<? extends AlmostPlatypusEntity> type, World worldIn) {
         super(type, worldIn);
-        this.setPathPriority(PathNodeType.WATER, 0.0F);
-        this.setTamed(false);
+        setTamed(false);
     }
 
     @Override
@@ -54,7 +50,6 @@ public class PlatypusEntity extends WolfEntity {
         this.goalSelector.addGoal(7, new PlatypusEntity.EggBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new TemptGoal(this, 1.0f, Ingredient.fromItems(Items.SALMON), false));
         this.goalSelector.addGoal(8, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -70,8 +65,9 @@ public class PlatypusEntity extends WolfEntity {
     }
 
     @Override
+    @Nullable
     protected SoundEvent getAmbientSound() {
-        return PLATYPUS_AMBIENT_SOUND;
+        return this.rand.nextBoolean() ? PLATYPUS_AMBIENT_SOUND : null;
     }
 
     @Override
@@ -167,18 +163,11 @@ public class PlatypusEntity extends WolfEntity {
         } else {
             if (this.isTamed()) {
 
-                if (item == Items.GLASS_BOTTLE){
-
-                            Platypus.LOGGER.info("You're milking a platypus now...");
-                            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-                            itemstack.shrink(1);
-                            ItemStack potion = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.POISON);
-                            player.addItemStackToInventory(potion);
-                            return ActionResultType.SUCCESS;
-
-                    }
-
-
+                if (item == Items.GLASS_BOTTLE && this.getHealth() == this.getMaxHealth()){
+                    ItemStack potion = new ItemStack(Items.POTION);
+                    PotionUtils.addPotionToItemStack(potion, Potions.POISON);
+                    player.addItemStackToInventory(potion);
+                    itemstack.shrink(1);
                 }
 
                 if (isCrayfish && this.getHealth() < this.getMaxHealth()) {
@@ -196,36 +185,37 @@ public class PlatypusEntity extends WolfEntity {
 
                     this.setInLove(player);
 
-                } else if (isCrayfish && !this.func_233678_J__()) {
-
-                    if (!player.abilities.isCreativeMode) {
-
-                        itemstack.shrink(1);
-
-                    }
-
-                    if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
-
-                        this.setTamedBy(player);
-                        this.navigator.clearPath();
-                        this.setAttackTarget(null);
-                        this.func_233687_w_(true);
-                        this.world.setEntityState(this, (byte) 7);
-
-                    } else {
-
-                        this.world.setEntityState(this, (byte) 6);
-
-                    }
-
-                    return ActionResultType.SUCCESS;
                 }
 
-                return super.func_230254_b_(player, hand);
+            } else if (isCrayfish && !this.func_233678_J__()) {
 
+                if (!player.abilities.isCreativeMode) {
+
+                    itemstack.shrink(1);
+
+                }
+
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+
+                    this.setTamedBy(player);
+                    this.navigator.clearPath();
+                    this.setAttackTarget(null);
+                    this.func_233687_w_(true);
+                    this.world.setEntityState(this, (byte) 7);
+
+                } else {
+
+                    this.world.setEntityState(this, (byte) 6);
+
+                }
+
+                return ActionResultType.SUCCESS;
             }
-        }
 
+            return super.func_230254_b_(player, hand);
+
+        }
+    }
 
 
         private class EggBreedGoal extends BreedGoal {
@@ -236,11 +226,13 @@ public class PlatypusEntity extends WolfEntity {
             @Override
             protected void spawnBaby() {
 
-                for (int i = 0; i < new Random().nextInt(3); i++ ) {
-
-                    this.animal.entityDropItem(RegistryHandler.PLATYPUS_EGG.get());
-
-                }
+//                for (int i = 0; i < new Random().nextInt(3); i++ ) {
+//
+//                    this.animal.entityDropItem(RegistryHandler.PLATYPUS_EGG.get());
+//
+//                }
+                world.playSound(null, this.animal.func_233580_cy_(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.rand.nextFloat() * 0.2F);
+                world.setBlockState(this.animal.func_233580_cy_().add(1,0,0), RegistryHandler.PLATYPUS_EGG.get().getDefaultState());
 
                 this.animal.resetInLove();
 

@@ -9,7 +9,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.DrownedEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
@@ -26,7 +25,6 @@ public class PerryEntity extends PlatypusEntity {
         this.goalSelector.addGoal(6, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
         this.goalSelector.addGoal(7, new EggBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -38,7 +36,7 @@ public class PerryEntity extends PlatypusEntity {
     }
 
     //Platypus constructor or something
-    public PerryEntity(EntityType<? extends WolfEntity> type, World worldIn) {
+    public PerryEntity(EntityType<? extends PlatypusEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
     }

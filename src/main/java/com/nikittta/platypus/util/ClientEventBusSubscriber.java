@@ -3,12 +3,11 @@ package com.nikittta.platypus.util;
 import com.nikittta.platypus.Platypus;
 import com.nikittta.platypus.client.render.PerryRenderer;
 import com.nikittta.platypus.client.render.PlatypusRenderer;
-import com.nikittta.platypus.entities.PlatypusEntity;
 import com.nikittta.platypus.init.ModEntityTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.WolfEntity;
+import com.nikittta.platypus.items.ModSpawnEggItem;
+import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -24,11 +23,8 @@ public class ClientEventBusSubscriber {
     }
 
     @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinWorldEvent event){
-        Entity entity = event.getEntity();
-        if (entity instanceof WolfEntity && !(entity instanceof PlatypusEntity)){
-
-        }
+    public static void registerEntities(RegistryEvent.Register<EntityType<?>> event){
+        ModSpawnEggItem.initSpawnEggs();
     }
 
 }

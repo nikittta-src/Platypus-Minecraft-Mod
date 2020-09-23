@@ -2,8 +2,10 @@ package com.nikittta.platypus.blocks;
 
 import com.nikittta.platypus.entities.PlatypusEntity;
 import com.nikittta.platypus.init.ModEntityTypes;
+import com.nikittta.platypus.util.PlatypusesConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.SoundCategory;
@@ -19,7 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class PlatypusEggBlock extends Block {
+public class PlatypusEggBlock extends FallingBlock {
 
     protected static final VoxelShape SHAPE = Stream.of(
             Block.makeCuboidShape(6, 8, 6, 10, 9, 10),
@@ -27,6 +29,7 @@ public class PlatypusEggBlock extends Block {
             Block.makeCuboidShape(4, 1, 4, 12, 6, 12),
             Block.makeCuboidShape(5, 0, 5, 11, 1, 11)
     ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+
 
     public PlatypusEggBlock() {
         super(Properties.create(Material.DRAGON_EGG)
@@ -49,7 +52,7 @@ public class PlatypusEggBlock extends Block {
 
                 worldIn.playEvent(2001, pos, Block.getStateId(state));
                 PlatypusEntity platypusEntity = ModEntityTypes.PLATYPUS.get().create(worldIn);
-                if (random.nextInt(20) == 8){
+                if (random.nextInt(100) <= PlatypusesConfig.COMMON.randomlySpawnPerry.get()){
                     platypusEntity = ModEntityTypes.PERRY.get().create(worldIn);
                 }
                 platypusEntity.setGrowingAge(-24000);

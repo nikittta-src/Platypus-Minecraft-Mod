@@ -1,24 +1,24 @@
 package com.nikittta.platypus.entities;
 
 import com.nikittta.platypus.Platypus;
+import com.nikittta.platypus.goals.EggBreedGoal;
 import com.nikittta.platypus.init.ModEntityTypes;
 import com.nikittta.platypus.util.RegistryHandler;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.DrownedEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.*;
@@ -29,10 +29,62 @@ import javax.annotation.Nullable;
 
 public class PlatypusEntity extends AlmostPlatypusEntity {
 
-    //Platypus constructor or something
+    private boolean eggHit = false;
+
+    @Nullable
+    public PlayerEntity theOneWhoAttackedMyEgg = null;
+    private boolean isAngry;
+
+    public void notifyHit(PlayerEntity player){
+        if (eggHit) {
+            this.eggHit = false;
+            this.theOneWhoAttackedMyEgg = player;
+            Platypus.LOGGER.info("Someone just touched my egg, so I'll kill him");
+        } else {
+            this.eggHit = true;
+        }
+
+    }
+
+    public boolean wasEggHit(){
+        return this.eggHit;
+    }
+
+    private boolean hasEgg = false;
+    @Nullable
+    private BlockPos eggPos = null;
+
     public PlatypusEntity(EntityType<? extends AlmostPlatypusEntity> type, World worldIn) {
         super(type, worldIn);
         setTamed(false);
+    }
+
+    public BlockPos getEggPos(){
+        return this.eggPos;
+    }
+
+    public void setEggPos(BlockPos _eggPos){
+        this.eggPos = _eggPos;
+    }
+
+    public boolean hasEgg(){
+        return this.hasEgg;
+    }
+
+    public void setHasEgg(boolean hasOrNot){
+        this.hasEgg = hasOrNot;
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if (entityIn instanceof LivingEntity){
+            if (entityIn instanceof MonsterEntity){
+                ((MonsterEntity) entityIn).addPotionEffect(new EffectInstance(Effects.INSTANT_HEALTH));
+            } else {
+                ((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.POISON, 200));
+            }
+        }
+        return super.attackEntityAsMob(entityIn);
     }
 
     @Override
@@ -42,23 +94,22 @@ public class PlatypusEntity extends AlmostPlatypusEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 8.0F, 2.0F, false));
-        this.goalSelector.addGoal(6, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
-        this.goalSelector.addGoal(7, new PlatypusEntity.EggBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new TemptGoal(this, 1.0f, Ingredient.fromItems(Items.SALMON), false));
-        this.goalSelector.addGoal(8, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new SitGoal(this));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0,  Ingredient.fromItems(Items.SALMON, RegistryHandler.CRAYFISH.get()), false));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal(this, DrownedEntity.class, 24.0F, 1.5D, 1.5D));
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(7, new EggBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setCallsForHelp());
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, SalmonEntity.class, 10, true, false, this::func_233680_b_));
-        this.targetSelector.addGoal(8, new ResetAngerGoal<>(this, true));
-    }
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::func_233680_b_));
+        this.targetSelector.addGoal(8, new ResetAngerGoal<>(this, true));}
 
     public final CreatureAttribute getCreatureAttribute() {
         return CreatureAttribute.WATER;
@@ -217,26 +268,11 @@ public class PlatypusEntity extends AlmostPlatypusEntity {
         }
     }
 
-
-        private class EggBreedGoal extends BreedGoal {
-            public EggBreedGoal(PlatypusEntity animal, double speedIn) {
-                super(animal, speedIn);
-            }
-
-            @Override
-            protected void spawnBaby() {
-
-//                for (int i = 0; i < new Random().nextInt(3); i++ ) {
-//
-//                    this.animal.entityDropItem(RegistryHandler.PLATYPUS_EGG.get());
-//
-//                }
-                world.playSound(null, this.animal.func_233580_cy_(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 0.9F + world.rand.nextFloat() * 0.2F);
-                world.setBlockState(this.animal.func_233580_cy_().add(1,0,0), RegistryHandler.PLATYPUS_EGG.get().getDefaultState());
-
-                this.animal.resetInLove();
-
-            }
-        }
-
+    public void setAngry(boolean angry){
+        this.isAngry = angry;
     }
+
+    public boolean isAngry() {
+        return isAngry;
+    }
+}

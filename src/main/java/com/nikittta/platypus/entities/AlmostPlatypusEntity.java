@@ -128,16 +128,11 @@ public class AlmostPlatypusEntity extends TameableEntity implements IAngerable {
         return SoundEvents.ENTITY_WOLF_DEATH;
     }
 
-    @Override
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
-
     /**
      * Returns the volume for the sounds this mob makes.
      */
     protected float getSoundVolume() {
-        return 0.25F;
+        return 0.4F;
     }
 
     /**
@@ -429,6 +424,7 @@ public class AlmostPlatypusEntity extends TameableEntity implements IAngerable {
         this.dataManager.set(COLLAR_COLOR, collarcolor.getId());
     }
 
+    @Nullable
     public AlmostPlatypusEntity createChild(AgeableEntity ageable) {
         return null;
     }

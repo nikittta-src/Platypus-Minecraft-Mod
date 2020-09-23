@@ -14,10 +14,11 @@ loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft versio
 # The modid of the mod
 modId="platypus" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.16.1-1.0" #mandatory
+version="1.2" #mandatory
  # A display name for the mod
-displayName="Platypus Mod" #mandatory
+displayName="Platypuses" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
+updateJSONURL="https://nikittta.herokuapp.com/check"
 #updateJSONURL="http://myurl.com" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="http://i_want_my_own_website.af/but_i_dont_have_one" #optional
@@ -28,7 +29,7 @@ logoFile="logo.png" #optional
 authors="Nikittta, your_jeans" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-This mod adds a platypus. That is it. Platypuses are cute. They deserve being in Minecraft.
+Platypuses go krrrrrr
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.examplemod]] #optional

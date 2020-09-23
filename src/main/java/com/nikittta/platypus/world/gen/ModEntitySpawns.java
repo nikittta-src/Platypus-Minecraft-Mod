@@ -14,10 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ModEntitySpawns {
 
     public static Boolean isAppropriate(Biome biome){
-        if ((biome.getCategory() == Biome.Category.SWAMP) | (biome.getCategory() == Biome.Category.RIVER) | (biome.getCategory() == Biome.Category.ICY)){
-            return true;
-        }
-        return false;
+        return (biome.getCategory() == Biome.Category.SWAMP) | (biome.getCategory() == Biome.Category.RIVER) | (biome.getCategory() == Biome.Category.ICY);
     }
 
     @SubscribeEvent

@@ -97,6 +97,40 @@ public class PlatypusModel <T extends PlatypusEntity> extends AlmostPlatypusMode
         return ImmutableList.of(this.leg1, this.leg2, this.leg3, this.leg4, this.body, this.tail);
     }
 
+    @Override
+    public void setLivingAnimations(T entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+
+        if (entityIn.isAngry()){
+            this.head.rotationPointY = 18.5f;
+            this.body.rotationPointY = 19.5f;
+            this.tail.rotationPointY = 16.0f;
+            this.leg1.setRotationPoint(-2.0F, 22.5F, 7.0F);
+            this.leg2.setRotationPoint(2.0F, 22.5F, 7.0F);
+            this.leg3.setRotationPoint(-2.0F, 22.5F, -1.0F);
+            this.leg4.setRotationPoint(2.0F, 22.5F, -1.0F);
+            this.tail.rotateAngleX = 45;
+        }else if (entityIn.func_233684_eK_()) {
+            this.head.rotationPointY = 21.5f;
+            this.body.rotationPointY = 21.5f;
+            this.tail.rotationPointY = 18.0f;
+            this.leg1.setRotationPoint(-4.0F, 22.5F, 7.0F);
+            this.leg2.setRotationPoint(4.0F, 22.5F, 7.0F);
+            this.leg3.setRotationPoint(-4.0F, 22.5F, 0.0F);
+            this.leg4.setRotationPoint(4.0F, 22.5F, 0.0F);
+        } else if (!entityIn.func_233684_eK_()){
+            this.head.rotationPointY = 18.5f;
+            this.body.rotationPointY = 19.5f;
+            this.tail.rotationPointY = 16.0f;
+            this.leg1.setRotationPoint(-2.0F, 22.5F, 7.0F);
+            this.leg2.setRotationPoint(2.0F, 22.5F, 7.0F);
+            this.leg3.setRotationPoint(-2.0F, 22.5F, -1.0F);
+            this.leg4.setRotationPoint(2.0F, 22.5F, -1.0F);
+        }
+
+        this.body.rotateAngleZ = entityIn.getShakeAngle(partialTick, -0.16F);
+        this.tail_rotation.rotateAngleZ = entityIn.getShakeAngle(partialTick, -0.2F);
+    }
+
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

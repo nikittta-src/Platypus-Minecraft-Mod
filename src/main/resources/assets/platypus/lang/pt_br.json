@@ -1,0 +1,10 @@
+{
+  "entity.platypus.platypus": "Ornitorrinco",
+  "entity.platypus.perry": "Perry o Ornitorrinco",
+  "block.platypus.platypus_egg": "Ovo de Ornitorrinco",
+  "item.platypus.crayfish": "Lagosta",
+  "item.platypus.perry_spawn_egg": "Ovo Gerador de Perry o Ornitorrinco",
+  "item.platypus.platypus_spawn_egg": "Ovo Gerador de Ornitorrinco",
+  "advancements.adventure.kill_platypus.title": "Você é um monstro!",
+  "advancements.adventure.kill_platypus.description": "Mate um ornitorrinco"
+}
